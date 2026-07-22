@@ -836,3 +836,208 @@ ext build --profile for bundle analysis
 
 *Last updated: 2025-07-22*
 *For questions, ask in #dev channel or create a GitHub Discussion*
+
+## gstack Integration
+
+This project uses [gstack](https://github.com/garrytan/gstack) — Garry Tan's personal Claude Code skill pack with 23 specialized AI agents for different roles.
+
+### What is gstack?
+
+gstack provides slash commands that act as specialized AI agents:
+
+| Role | Skills |
+|------|--------|
+| **CEO** | /office-hours, /plan-ceo-review, /cso |
+| **Designer** | /design-consultation, /design-shotgun, /design-html, /design-review, /ios-design-review |
+| **Eng Manager** | /plan-eng-review, /review, /devex-review, /pair-agent |
+| **Release Manager** | /ship, /land-and-deploy, /canary, /gstack-upgrade |
+| **Doc Engineer** | /document-release, /document-generate |
+| **QA** | /qa, /qa-only, /benchmark, /browse, /open-gstack-browser, /setup-browser-cookies |
+| **General** | /autoplan, /codex, /careful, /freeze, /guard, /unfreeze, /investigate, /retro, /learn, /setup-deploy, /setup-gbrain, /sync-gbrain, /diagram, /extension, /health, /hosts, /ios-clean, /context-save, /context-restore |
+
+### Installation
+
+#### Option 1: Project-Local (Recommended for Teams)
+`ash
+# In project root
+mkdir -p .agents/skills
+git clone https://github.com/garrytan/gstack .agents/skills/gstack
+cd .agents/skills/gstack
+./setup --host claude
+`
+
+#### Option 2: Git Submodule (Version Controlled)
+`ash
+git submodule add https://github.com/garrytan/gstack .agents/skills/gstack
+cd .agents/skills/gstack
+./setup --host claude
+`
+
+#### Option 3: Global Install
+`ash
+git clone https://github.com/garrytan/gstack ~/.claude/skills/gstack
+cd ~/.claude/skills/gstack
+./setup --no-prefix  # shorter commands: /qa instead of /gstack-qa
+`
+
+### Key Workflows
+
+#### Feature Planning
+`ash
+/autoplan "Add video export to MP4 with custom bitrate"
+# → Creates SPEC.md with implementation plan
+
+/plan-eng-review SPEC.md
+# → Engineering manager review of the plan
+`
+
+#### Design
+`ash
+/design-consultation "Need a video timeline editor UI"
+# → Design advice and suggestions
+
+/design-shotgun
+# → Rapid design exploration (multiple concepts)
+
+/design-html
+# → Build interactive HTML prototype
+`
+
+#### Code Review
+`ash
+/review
+# → Eng manager style code review
+
+/devex-review
+# → Developer experience review
+`
+
+#### QA & Testing
+`ash
+/qa
+# → Full QA suite: tests, typecheck, build, lint
+
+/qa-only
+# → QA only (no auto-fixes)
+
+/benchmark
+# → Performance benchmarks
+`
+
+#### Release & Deploy
+`ash
+/ship
+# → Version bump, changelog, git tag
+
+/land-and-deploy
+# → Deploy to Vercel + verification
+
+/canary
+# → Canary deployment
+`
+
+#### Documentation
+`ash
+/document-generate
+# → Generate docs from code
+
+/document-release
+# → Write release notes
+`
+
+#### Debugging & Investigation
+`ash
+/investigate "Video render fails on long videos"
+# → Systematic debugging
+
+/careful
+# → Extra validation mode
+`
+
+#### Context Management
+`ash
+/context-save "feature-video-export"
+# → Save current context
+
+/context-restore "feature-video-export"
+# → Restore context later
+`
+
+### Web Browsing
+
+**Use /browse instead of built-in browser tools:**
+`ash
+/browse https://example.com
+# → Opens page, returns content
+
+/open-gstack-browser
+# → Persistent browser session
+`
+
+### Setup Commands
+`ash
+/setup-browser-cookies
+# → Configure browser authentication
+
+/setup-deploy
+# → Configure deployment targets
+
+/setup-gbrain
+# → Initialize knowledge base
+
+/sync-gbrain
+# → Sync knowledge base
+`
+
+### Team Onboarding
+
+Add to your CLAUDE.md:
+`markdown
+## gstack
+Use /browse from gstack for all web browsing. Never use mcp__claude-in-chrome__* tools.
+Available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review,
+/design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy,
+/canary, /benchmark, /browse, /open-gstack-browser, /qa, /qa-only, /design-review,
+/setup-browser-cookies, /setup-deploy, /setup-gbrain, /sync-gbrain, /retro,
+/investigate, /document-release, /document-generate, /codex, /cso, /autoplan,
+/pair-agent, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn.
+`
+
+### .gitignore Additions
+`ash
+# gstack local install
+.agents/skills/gstack/node_modules
+.agents/skills/gstack/dist
+`
+
+### Upgrading
+`ash
+cd .agents/skills/gstack
+git pull
+./setup --host claude
+`
+
+Or use the built-in command:
+`ash
+/gstack-upgrade
+`
+
+### For Future Projects
+
+1. **Add as submodule** to new repos:
+   `ash
+   git submodule add https://github.com/garrytan/gstack .agents/skills/gstack
+   `
+
+2. **Include in project template** — add .agents/skills/gstack to your starter template
+
+3. **Team convention** — document which skills your team uses in each project's CLAUDE.md
+
+### Useful Links
+- [gstack Repository](https://github.com/garrytan/gstack)
+- [Garry Tan's Blog](https://blog.garrytan.com)
+- [Claude Code Docs](https://docs.anthropic.com/claude-code)
+
+---
+
+*Last updated: 2025-07-22*
